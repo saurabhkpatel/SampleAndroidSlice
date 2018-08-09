@@ -1,4 +1,4 @@
-# SampleAndroidSlice
+# Android Slices Sample
 
 It's just a sample android applciation which demonstrate the usage of Android Slice. Please read the introduction medium artcile for it.
 

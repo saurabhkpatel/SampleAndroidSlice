@@ -264,7 +264,7 @@ class MySliceProvider : SliceProvider() {
                 addEndItem(createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_work_24, SliceHints.ICON_IMAGE))
             }
             row {
-                title = "Time Stamp"
+                title = "Slice Row"
                 subtitle = "contains start and end items"
                 primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_work_24, SliceHints.ICON_IMAGE)
                 setTitleItem(createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE))

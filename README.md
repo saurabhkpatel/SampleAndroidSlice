@@ -18,8 +18,11 @@ It's just a sample android applciation which demonstrate the usage of different 
 - This Sample application is using Kotlin.
 - Using Slice Builders KTX lib, not using the core slice builders lib.
 
-## Preview
+## Slices in Action
+
+
+
+
 
 [by Saurabh Patel](https://medium.com/@saurabhkpatel)
-
 

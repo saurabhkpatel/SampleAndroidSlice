@@ -40,17 +40,18 @@ class MySliceProvider : SliceProvider() {
             sliceUri.path == "/basicHeaderSlice" -> createBasicHeaderSlice(sliceUri)
             sliceUri.path == "/basicActionClickSlice" -> createBasicInteractiveSlice(sliceUri)
             sliceUri.path == "/basicActionClickSliceWithKTX" -> createBasicInteractiveSliceWithKTX(sliceUri)
+            sliceUri.path == "/rowSliceWithStartItem" -> createRowSliceWithStartItem1(sliceUri)
             sliceUri.path == "/wifiToggleAction" -> createWifiToggleActionSlice(sliceUri)
             sliceUri.path == "/dynamicCountSlice" -> createDynamicSlice(sliceUri)
             sliceUri.path == "/inputRangeSlice" -> createInputRangeSlice(sliceUri)
             sliceUri.path == "/rangeSlice" -> createRangeSlice(sliceUri)
-            sliceUri.path == "/headerSlice" -> createHeaderSlice(sliceUri)
             sliceUri.path == "/headerSliceWithMoreActions" -> createHeaderSliceWithMoreActions(sliceUri)
             sliceUri.path == "/headerSliceWithHeaderAndRow" -> createSliceWithHeaderAndRow(sliceUri)
             sliceUri.path == "/gridRowSlice" -> createSliceWithGridRow(sliceUri)
             sliceUri.path == "/delayContentSlice" -> createSliceShowingLoading(sliceUri)
             sliceUri.path == "/seeMoreRowSlice" -> createSliceWithSeeMoreAction(sliceUri)
             sliceUri.path == "/combineSlices" -> createCombineSlices(sliceUri)
+            sliceUri.path == "/trafficInfoSlice" -> createTrafficInfoSlice(sliceUri)
             else -> createErrorSlice(sliceUri)
         }
     }
@@ -60,17 +61,42 @@ class MySliceProvider : SliceProvider() {
     private fun createBasicRowSlice(sliceUri: Uri): Slice {
         return ListBuilder(context, sliceUri, ListBuilder.INFINITY)
                 .addRow {
-                    it.setTitle("Hello Slice.")
-                    // uncomment the following line to remove the exception.
-                    // it.primaryAction = createPrimaryOpenMainActivityAction()
+                    it.setTitle("Welcome Android Slice")
+                    it.setSubtitle("Row of Slice")
+                    // comment the following line to get the exception.
+                    it.primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE)
                 }
                 .build()
+    }
+
+    private fun createRowSliceWithStartItem(sliceUri: Uri): Slice {
+        return ListBuilder(context, sliceUri, ListBuilder.INFINITY)
+                .addRow {
+                    it.setTitle("Welcome Android Slice")
+                    it.setSubtitle("It has Start Item")
+                    // comment the following line to get the exception.
+                    // it.primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE)
+                    it.setTitleItem(createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE))
+                }
+                .build()
+    }
+
+    private fun createRowSliceWithStartItem1(sliceUri: Uri): Slice {
+        return list(context, sliceUri, ListBuilder.INFINITY) {
+            row {
+                setTitleItem(createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE))
+                setTitle("Welcome Android Slice")
+                setSubtitle("It has Start Item")
+            }
+        }
     }
 
     private fun createBasicHeaderSlice(sliceUri: Uri): Slice {
         return ListBuilder(context, sliceUri, ListBuilder.INFINITY)
                 .setHeader {
-                    it.setTitle("Hello Slice: Header")
+                    it.setTitle("Welcome Android Slice")
+                    it.setSubtitle("Header of Slice")
+                    it.setSubtitle("Header of Slice")
                 }
                 .build()
     }
@@ -78,8 +104,8 @@ class MySliceProvider : SliceProvider() {
     private fun createBasicInteractiveSlice(sliceUri: Uri): Slice {
         val listBuilder = ListBuilder(context, sliceUri, INFINITY)
         val rowBuilder = ListBuilder.RowBuilder(listBuilder)
-                .setTitle("Perform action in app")
-                .setSubtitle("Click Me", true)
+                .setTitle("Android Slice")
+                .setSubtitle("Click Me !!", true)
                 .setPrimaryAction(createPrimaryOpenMainActivityAction())
         listBuilder.addRow(rowBuilder)
         return listBuilder.build()
@@ -88,9 +114,9 @@ class MySliceProvider : SliceProvider() {
     private fun createBasicInteractiveSliceWithKTX(sliceUri: Uri): Slice {
         return list(context, sliceUri, INFINITY) {
             row {
-                title = "Perform action :KTX"
+                title = "Android Slice w/ KTX builders"
+                subtitle = "Click Me !!"
                 primaryAction = createPrimaryOpenMainActivityAction()
-                subtitle = "Click Me"
             }
         }
     }
@@ -142,8 +168,8 @@ class MySliceProvider : SliceProvider() {
         return list(context, sliceUri, INFINITY) {
             row {
                 primaryAction = createPrimaryOpenMainActivityAction()
-                title = "Count: ${MyBroadcastReceiver.currentValue}"
-                subtitle = "Click me"
+                title = "Total Count : ${MyBroadcastReceiver.currentValue}"
+                subtitle = "This is dynamic slice demo"
                 addEndItem(incrementAction)
                 addEndItem(decrementAction)
             }
@@ -179,67 +205,48 @@ class MySliceProvider : SliceProvider() {
     //region Range/InputRange Slices
     private fun createRangeSlice(sliceUri: Uri): Slice? {
         return list(context, sliceUri, INFINITY) {
-            header {
-                title = "Current brightness level"
-                primaryAction = createPrimaryOpenMainActivityAction()
-            }
             range {
+                title = "Current brightness level"
+                subtitle = "25 %"
                 max = 100
-                value = 45
+                value = 25
+                primaryAction = createPrimaryOpenMainActivityAction()
             }
         }
     }
 
     private fun createInputRangeSlice(sliceUri: Uri): Slice? {
-        val toggleAction = createToggleAction()
+        val toggleAction = createBrightnessAction()
 
         return list(context, sliceUri, INFINITY) {
-            row {
+            inputRange {
                 title = "Adaptive brightness"
                 subtitle = "Optimizes brightness for available light"
-                primaryAction = toggleAction
-            }
-            inputRange {
                 min = 0
                 max = 100
                 value = 45
                 inputAction = createSettingsPendingIntent()
+                // not working primary action.
+                primaryAction = createPrimaryOpenMainActivityAction()
             }
         }
     }
     //endregion
 
     //region Header/Row Builder Examples
-    private fun createHeaderSlice(sliceUri: Uri): Slice? {
-        return list(context, sliceUri, INFINITY) {
-            header {
-                title = "Header Title"
-                subtitle = "Header Sub Title"
-                summary = "Header Summary"
-            }
-        }
-    }
-
     private fun createHeaderSliceWithMoreActions(sliceUri: Uri): Slice? {
         return list(context, sliceUri, INFINITY) {
             header {
-                title = "Header 2 actions"
+                title = "Header with 2 actions"
                 subtitle = "Choose any action"
                 summary = "Choose any action from two actions"
-                primaryAction = createPrimaryOpenMainActivityAction()
             }
-            addAction(createToggleAction())
-            addAction(createPrimaryOpenMainActivityAction())
+            addAction(createActivityAction(Intent(Settings.ACTION_WIFI_SETTINGS), R.drawable.ic_wifi_24, SliceHints.ICON_IMAGE))
+            addAction(createActivityAction(Intent(Settings.ACTION_BLUETOOTH_SETTINGS), R.drawable.ic_bluetooth_24, SliceHints.ICON_IMAGE))
         }
     }
 
     private fun createSliceWithHeaderAndRow(sliceUri: Uri): Slice? {
-        val intent = Intent(context, MainActivity::class.java)
-        val sliceAction = SliceAction.createDeeplink(PendingIntent.getActivity(context, 0, intent, 0),
-                IconCompat.createWithResource(context, R.drawable.ic_launcher_background),
-                ListBuilder.ICON_IMAGE,
-                "Open MainActivity.")
-
         return list(context, sliceUri, ListBuilder.INFINITY) {
             header {
                 title = "Get a ride."
@@ -247,18 +254,20 @@ class MySliceProvider : SliceProvider() {
                 summary = "Work in 45 min | Home in 15 min."
             }
             row {
-                primaryAction = sliceAction
                 title = "Home"
                 subtitle = "15 miles | 15 min | $15.23"
-                addEndItem(IconCompat.createWithResource(context, R.drawable.ic_plus), SliceHints.ICON_IMAGE)
-
+                primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_work_24, SliceHints.ICON_IMAGE)
             }
             row {
-                primaryAction = sliceAction
+                title = "Work"
+                subtitle = "45 miles | 45 min | $15.23"
+                addEndItem(createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_work_24, SliceHints.ICON_IMAGE))
+            }
+            row {
                 title = "Time Stamp"
                 subtitle = "contains start and end items"
-                addEndItem(System.currentTimeMillis())
-                setTitleItem(IconCompat.createWithResource(context, R.drawable.ic_car_24), SliceHints.ICON_IMAGE)
+                primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_work_24, SliceHints.ICON_IMAGE)
+                setTitleItem(createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE))
             }
             setAccentColor(R.color.colorAccent)
         }
@@ -271,34 +280,37 @@ class MySliceProvider : SliceProvider() {
         return list(context, sliceUri, ListBuilder.INFINITY) {
             header {
                 title = "Famous restaurants"
-                primaryAction = createPrimaryOpenMainActivityAction()
+                primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_restaurant_24, SliceHints.ICON_IMAGE)
             }
             gridRow {
                 cell {
-                    addImage(IconCompat.createWithResource(context!!, R.drawable.r1), SliceHints.LARGE_IMAGE)
+                    addImage(IconCompat.createWithResource(context, R.drawable.r1), SliceHints.LARGE_IMAGE)
                     addTitleText("Top Restaurant")
                     addText("0.3 mil")
                     contentIntent = createSettingsPendingIntent()
                 }
                 cell {
-                    addImage(IconCompat.createWithResource(context!!, R.drawable.r2), SliceHints.LARGE_IMAGE)
+                    addImage(IconCompat.createWithResource(context, R.drawable.r2), SliceHints.LARGE_IMAGE)
                     addTitleText("Fast and Casual")
                     addText("0.5 mil")
                     contentIntent = createSettingsPendingIntent()
                 }
                 cell {
-                    addImage(IconCompat.createWithResource(context!!, R.drawable.r3), SliceHints.LARGE_IMAGE)
+                    addImage(IconCompat.createWithResource(context, R.drawable.r3), SliceHints.LARGE_IMAGE)
                     addTitleText("Casual Diner")
                     addText("0.9 mi")
                     contentIntent = createSettingsPendingIntent()
                 }
                 cell {
-                    addImage(IconCompat.createWithResource(context!!, R.drawable.r4), SliceHints.LARGE_IMAGE)
+                    addImage(IconCompat.createWithResource(context, R.drawable.r4), SliceHints.LARGE_IMAGE)
                     addTitleText("Ramen Spot")
                     addText("1.2 mi")
                     contentIntent = createSettingsPendingIntent()
                 }
                 setSeeMoreAction(createSettingsPendingIntent())
+                // As per the google doc if whole grid row clicks then it should trigger the primary action. But it's not working.
+                //developer.android.com/reference/androidx/slice/builders/GridRowBuilder#setPrimaryAction(androidx.slice.builders.SliceAction)
+                primaryAction = createPrimaryOpenMainActivityAction()
                 // uncomment the below line to use the custom see more cell.
                 // seeMoreCell = GridRowBuilder.CellBuilder().addTitleText("Custom Title").addText("Custom Text").addImage(IconCompat.createWithResource(context!!, R.drawable.ic_android_24), SliceHints.SMALL_IMAGE).setContentIntent(createSettingsPendingIntent())
             }
@@ -309,27 +321,32 @@ class MySliceProvider : SliceProvider() {
     //region seeMoreAction/Row example, This isn't working, need to check why
     private fun createSliceWithSeeMoreAction(sliceUri: Uri): Slice {
 
+        val gmmIntentUri = Uri.parse("geo:37.7749,-122.4194?q=restaurants")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+
+
         return list(context, sliceUri, ListBuilder.INFINITY) {
             header {
                 title = "Near by restaurants"
-                primaryAction = createToggleAction()
+                primaryAction = createPrimaryOpenMainActivityAction()
             }
             row {
-                primaryAction = createPrimaryOpenMainActivityAction()
+                primaryAction = createActivityAction(mapIntent, R.drawable.ic_place_24, SliceHints.ICON_IMAGE)
                 title = "Bakora, Mediterranean food"
                 setTitleItem(IconCompat.createWithResource(context, R.drawable.r1), SliceHints.SMALL_IMAGE)
             }
             row {
-                primaryAction = createPrimaryOpenMainActivityAction()
+                primaryAction = createActivityAction(mapIntent, R.drawable.ic_place_24, SliceHints.ICON_IMAGE)
                 title = "Taj, Indian food"
                 setTitleItem(IconCompat.createWithResource(context, R.drawable.r2), SliceHints.SMALL_IMAGE)
             }
             row {
-                primaryAction = createPrimaryOpenMainActivityAction()
+                primaryAction = createActivityAction(mapIntent, R.drawable.ic_place_24, SliceHints.ICON_IMAGE)
                 title = "Primer Pizza, Italian food"
                 setTitleItem(IconCompat.createWithResource(context, R.drawable.r3), SliceHints.SMALL_IMAGE)
             }
-            setSeeMoreAction(createSettingsPendingIntent())
+            setSeeMoreAction(PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), 0))
         }
     }
     //endregion
@@ -341,9 +358,7 @@ class MySliceProvider : SliceProvider() {
             row {
                 title = "Upcoming Trip: Seattle"
                 subtitle = "Aug 15-20 • 5 Guests"
-                addEndItem(createActivityAction(R.drawable.ic_flight_24, SliceHints.ICON_IMAGE))
-                addEndItem(createActivityAction(R.drawable.ic_email_24, SliceHints.ICON_IMAGE))
-                primaryAction = createPrimaryOpenMainActivityAction()
+                primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_email_24, SliceHints.ICON_IMAGE)
             }
             gridRow {
                 cell {
@@ -362,6 +377,43 @@ class MySliceProvider : SliceProvider() {
             }
         }
     }
+
+    private fun createTrafficInfoSlice(sliceUri: Uri): Slice {
+
+        val gmmIntentUri = Uri.parse("geo:37.7749,-122.4194")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+
+        return list(context, sliceUri, ListBuilder.INFINITY) {
+            header {
+                title = "Heavy traffic in your area"
+                subtitle = "Typical conditions delays up to 28"
+            }
+            gridRow {
+                cell {
+                    addImage(IconCompat.createWithResource(context, R.drawable.ic_home_24), SliceHints.ICON_IMAGE)
+                    addTitleText("Home")
+                    addText("30 min")
+                    contentIntent = createMapsActivityPendingIntent()
+                }
+                cell {
+                    addImage(IconCompat.createWithResource(context, R.drawable.ic_work_24), SliceHints.ICON_IMAGE)
+                    addTitleText("Work")
+                    addText("45 min")
+                    contentIntent = createMapsActivityPendingIntent()
+                }
+                cell {
+                    addImage(IconCompat.createWithResource(context, R.drawable.ic_restaurant_24), SliceHints.ICON_IMAGE)
+                    addTitleText("Restaurant")
+                    addText("5 min")
+                    contentIntent = createMapsActivityPendingIntent()
+                }
+                // As per the google doc if whole grid row clicks then it should trigger the primary action. But it's not working.
+                //developer.android.com/reference/androidx/slice/builders/GridRowBuilder#setPrimaryAction(androidx.slice.builders.SliceAction)
+                primaryAction = createActivityAction(mapIntent, R.drawable.ic_directions_24, SliceHints.ICON_IMAGE)
+            }
+        }
+    }
     //endregion
 
     //region Helper methods
@@ -373,31 +425,41 @@ class MySliceProvider : SliceProvider() {
                 PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
+    private fun createMapsActivityPendingIntent(): PendingIntent {
+        val gmmIntentUri = Uri.parse("geo:37.7749,-122.4194")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        return PendingIntent.getActivity(
+                context,
+                0,
+                mapIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT)
+    }
+
     private fun createPrimaryOpenMainActivityAction(): SliceAction {
         val intent = Intent(context, MainActivity::class.java)
         return SliceAction(
                 PendingIntent.getActivity(context, 0, intent, 0),
-                IconCompat.createWithResource(context, R.drawable.ic_android_24),
+                IconCompat.createWithResource(context, R.drawable.ic_open_24),
                 ListBuilder.ICON_IMAGE,
                 "Open MainActivity."
         )
     }
 
-    private fun createActivityAction(drawableInt: Int, imageMode: Int): SliceAction {
-        val intent = Intent(context, MainActivity::class.java)
-        return SliceAction(
-                PendingIntent.getActivity(context, 0, intent, 0),
-                IconCompat.createWithResource(context, drawableInt),
-                imageMode,
-                "Open MainActivity."
-        )
+    private fun createBrightnessAction(): SliceAction {
+        val intent = Intent(context, MyBroadcastReceiver::class.java)
+        return SliceAction.create(PendingIntent.getBroadcast(context, 0, intent, 0),
+                IconCompat.createWithResource(context, R.drawable.ic_brightness_auto_24),
+                SliceHints.ICON_IMAGE,
+                "Toggle adaptive brightness")
     }
 
-    private fun createToggleAction(): SliceAction {
-        val intent = Intent(context, MyBroadcastReceiver::class.java)
-        return SliceAction(PendingIntent.getBroadcast(context, 0, intent, 0),
-                "Toggle adaptive brightness",
-                true)
+    private fun createActivityAction(actionIntent: Intent, drawableInt: Int, imageMode: Int): SliceAction {
+        return SliceAction.create(
+                PendingIntent.getActivity(context, 0, actionIntent, 0),
+                IconCompat.createWithResource(context, drawableInt),
+                imageMode,
+                "Open MainActivity.")
     }
 
     private fun createErrorSlice(sliceUri: Uri): Slice {

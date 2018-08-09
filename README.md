@@ -20,6 +20,21 @@ It's just a sample android applciation which demonstrate the usage of different 
 - This Sample application is using Kotlin.
 - Using Slice Builders KTX lib, not using the core slice builders lib.
 
+## How to test/display Slices.
+- You need SliceViewer tool installed on your device.
+- Download and install the SliceViewer tool APK, download it from [here](https://github.com/googlesamples/android-SliceViewer/releases) and install it using the below command. SliceViewer tool displays the slices based on the content URI and you change the mode of slice as well.
+
+`adb install -r -t slice-viewer.apk`
+
+- Install your android application via command line or Android Studio whichever you prefer. 
+- Now, Run the following command to display the Slice. It’s the normal command to start the action intent with data URI. After running this command you can see your slice on SliceViewer screen. If it’s asking for the permission then give it because slice viewer tool requests the necessary permission to your application’s slice provider.
+
+```
+adb shell am start -a android.intent.action.VIEW -d slice-<content_uri_name>
+for eg. "content://com.saurabh.androidslices/basicRowSlice"
+```
+
+
 ## Slices in Action
 
 ![Slice Click Action](https://github.com/saurabhkpatel/SampleAndroidSlice/blob/master/screenshots/SliceAction.gif)

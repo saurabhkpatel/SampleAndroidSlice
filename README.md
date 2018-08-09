@@ -5,7 +5,7 @@ Slices are templated views that have the ability to show and interact with conte
 
 It's just a sample android applciation which demonstrate the usage of different types of Android Slices. Please go through the below articles for the detailed information about Slices.
 
-- [Android Jetpack: Android Slices Introduction Part-1](https://medium.com/@saurabhkpatel/android-jetpack-android-slices-introduction-cf0ce0f3e885)
+- [Android Jetpack: Android Slices Introduction Part-1 🍰](https://medium.com/@saurabhkpatel/android-jetpack-android-slices-introduction-cf0ce0f3e885)
 - [Android Jetpack: Android Slices Part-2 🍰](https://medium.com/@saurabhkpatel/android-jetpack-android-slices-part-2-688bede57f2d)
 
 ## Prerequisites

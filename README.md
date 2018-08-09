@@ -1,5 +1,7 @@
 # Android Slices Sample Application
 
+by [Saurabh Patel](https://medium.com/@saurabhkpatel)
+
 ## Overview
 Slices are templated views that have the ability to show and interact with content from an app from Google Search and later, places like the Google Assistant. 
 
@@ -20,9 +22,14 @@ It's just a sample android applciation which demonstrate the usage of different 
 
 ## Slices in Action
 
+![Slice Click Action](https://github.com/saurabhkpatel/SampleAndroidSlice/blob/master/screenshots/SliceAction.gif)
+
+![Slice Click Action](https://github.com/saurabhkpatel/SampleAndroidSlice/blob/master/screenshots/GridRowSlices.jpg)
+
+![Slice Click Action](https://github.com/saurabhkpatel/SampleAndroidSlice/blob/master/screenshots/DelayContentSlice.gif)
+
+![Slice Click Action](https://github.com/saurabhkpatel/SampleAndroidSlice/blob/master/screenshots/InputRangeSlice.png)
 
 
-
-
-[by Saurabh Patel](https://medium.com/@saurabhkpatel)
+[-Saurabh Patel](https://medium.com/@saurabhkpatel)
 

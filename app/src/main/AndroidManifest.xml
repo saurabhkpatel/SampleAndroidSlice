@@ -32,6 +32,17 @@
             </intent-filter>
         </provider>
 
+        <!-- To provide slices you must define a slice provider -->
+        <provider
+            android:name=".SliceProblemProvider"
+            android:authorities="com.test.androidslices.problem"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.app.slice.category.SLICE"/>
+            </intent-filter>
+        </provider>
+
         <receiver android:name=".MyBroadcastReceiver"/>
 
     </application>

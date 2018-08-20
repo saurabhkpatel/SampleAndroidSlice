@@ -40,7 +40,7 @@ class MySliceProvider : SliceProvider() {
             sliceUri.path == "/basicHeaderSlice" -> createBasicHeaderSlice(sliceUri)
             sliceUri.path == "/basicActionClickSlice" -> createBasicInteractiveSlice(sliceUri)
             sliceUri.path == "/basicActionClickSliceWithKTX" -> createBasicInteractiveSliceWithKTX(sliceUri)
-            sliceUri.path == "/rowSliceWithStartItem" -> createRowSliceWithStartItem1(sliceUri)
+            sliceUri.path == "/rowSliceWithStartItem" -> createRowSliceWithStartItem(sliceUri)
             sliceUri.path == "/wifiToggleAction" -> createWifiToggleActionSlice(sliceUri)
             sliceUri.path == "/dynamicCountSlice" -> createDynamicSlice(sliceUri)
             sliceUri.path == "/inputRangeSlice" -> createInputRangeSlice(sliceUri)
@@ -75,7 +75,7 @@ class MySliceProvider : SliceProvider() {
                     it.setTitle("Welcome Android Slice")
                     it.setSubtitle("It has Start Item")
                     // comment the following line to get the exception.
-                    // it.primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE)
+                    //it.primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE)
                     it.setTitleItem(createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE))
                 }
                 .build()

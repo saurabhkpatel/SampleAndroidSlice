@@ -284,25 +284,25 @@ class MySliceProvider : SliceProvider() {
             }
             gridRow {
                 cell {
-                    addImage(IconCompat.createWithResource(context, R.drawable.r1), SliceHints.LARGE_IMAGE)
+                    addImage(IconCompat.createWithResource(context, R.drawable.restaurant1), SliceHints.LARGE_IMAGE)
                     addTitleText("Top Restaurant")
                     addText("0.3 mil")
                     contentIntent = createSettingsPendingIntent()
                 }
                 cell {
-                    addImage(IconCompat.createWithResource(context, R.drawable.r2), SliceHints.LARGE_IMAGE)
+                    addImage(IconCompat.createWithResource(context, R.drawable.restaurant2), SliceHints.LARGE_IMAGE)
                     addTitleText("Fast and Casual")
                     addText("0.5 mil")
                     contentIntent = createSettingsPendingIntent()
                 }
                 cell {
-                    addImage(IconCompat.createWithResource(context, R.drawable.r3), SliceHints.LARGE_IMAGE)
+                    addImage(IconCompat.createWithResource(context, R.drawable.restaurant3), SliceHints.LARGE_IMAGE)
                     addTitleText("Casual Diner")
                     addText("0.9 mi")
                     contentIntent = createSettingsPendingIntent()
                 }
                 cell {
-                    addImage(IconCompat.createWithResource(context, R.drawable.r4), SliceHints.LARGE_IMAGE)
+                    addImage(IconCompat.createWithResource(context, R.drawable.restaurant4), SliceHints.LARGE_IMAGE)
                     addTitleText("Ramen Spot")
                     addText("1.2 mi")
                     contentIntent = createSettingsPendingIntent()
@@ -334,17 +334,17 @@ class MySliceProvider : SliceProvider() {
             row {
                 primaryAction = createActivityAction(mapIntent, R.drawable.ic_place_24, SliceHints.ICON_IMAGE)
                 title = "Bakora, Mediterranean food"
-                setTitleItem(IconCompat.createWithResource(context, R.drawable.r1), SliceHints.SMALL_IMAGE)
+                setTitleItem(IconCompat.createWithResource(context, R.drawable.restaurant1), SliceHints.SMALL_IMAGE)
             }
             row {
                 primaryAction = createActivityAction(mapIntent, R.drawable.ic_place_24, SliceHints.ICON_IMAGE)
                 title = "Taj, Indian food"
-                setTitleItem(IconCompat.createWithResource(context, R.drawable.r2), SliceHints.SMALL_IMAGE)
+                setTitleItem(IconCompat.createWithResource(context, R.drawable.restaurant2), SliceHints.SMALL_IMAGE)
             }
             row {
                 primaryAction = createActivityAction(mapIntent, R.drawable.ic_place_24, SliceHints.ICON_IMAGE)
                 title = "Primer Pizza, Italian food"
-                setTitleItem(IconCompat.createWithResource(context, R.drawable.r3), SliceHints.SMALL_IMAGE)
+                setTitleItem(IconCompat.createWithResource(context, R.drawable.restaurant3), SliceHints.SMALL_IMAGE)
             }
             setSeeMoreAction(PendingIntent.getActivity(context, 0, Intent(context, MainActivity::class.java), 0))
         }
@@ -362,7 +362,7 @@ class MySliceProvider : SliceProvider() {
             }
             gridRow {
                 cell {
-                    addImage(IconCompat.createWithResource(context, R.drawable.r1), SliceHints.LARGE_IMAGE)
+                    addImage(IconCompat.createWithResource(context, R.drawable.restaurant1), SliceHints.LARGE_IMAGE)
                 }
             }
             gridRow {

@@ -20,19 +20,19 @@ class MyBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action?.equals(TOGGLE_WIFI) == true) {
-            val wifiManager = context?.applicationContext?.getSystemService(Context.WIFI_SERVICE);
+            val wifiManager = context?.applicationContext?.getSystemService(Context.WIFI_SERVICE)
             if (wifiManager is WifiManager) {
                 val wifiState = intent.getBooleanExtra(EXTRA_VALUE_KEY, wifiManager.isWifiEnabled)
-                wifiManager.setWifiEnabled(!wifiState)
+                wifiManager.isWifiEnabled = !wifiState
                 // Actually, wifiManager.setWifiEnabled is an async call, so you can wait or listen to the wifi state change with help of any broadcast and update the slice later for the accurate results.
                 context.contentResolver?.notifyChange(wifiToggleUri, null)
             }
 
         } else if (intent?.action?.equals(DECREMENT_COUNTER_ACTION) == true && intent.hasExtra(EXTRA_VALUE_KEY)) {
-            currentValue = intent.getIntExtra(EXTRA_VALUE_KEY, 0);
+            currentValue = intent.getIntExtra(EXTRA_VALUE_KEY, 0)
             context?.contentResolver?.notifyChange(dynamicSliceUri, null)
         } else if (intent?.action?.equals(INCREMENT_COUNTER_ACTION) == true && intent.hasExtra(EXTRA_VALUE_KEY)) {
-            currentValue = intent.getIntExtra(EXTRA_VALUE_KEY, 0);
+            currentValue = intent.getIntExtra(EXTRA_VALUE_KEY, 0)
             context?.contentResolver?.notifyChange(dynamicSliceUri, null)
         }
     }

@@ -26,7 +26,7 @@ class MySliceProvider : SliceProvider() {
     }
 
     override fun onMapIntentToUri(intent: Intent?): Uri {
-        Log.d("MySliceProvider", "onMapIntentToUri");
+        Log.d("MySliceProvider", "onMapIntentToUri")
         return super.onMapIntentToUri(intent)
     }
 
@@ -59,10 +59,10 @@ class MySliceProvider : SliceProvider() {
     //region Basic Slices
 
     private fun createBasicRowSlice(sliceUri: Uri): Slice {
-        return ListBuilder(context, sliceUri, ListBuilder.INFINITY)
+        return ListBuilder(context, sliceUri, INFINITY)
                 .addRow {
-                    it.setTitle("Welcome Android Slice")
-                    it.setSubtitle("Row of Slice")
+                    it.title = "Welcome Android Slice"
+                    it.subtitle = "Row of Slice"
                     // comment the following line to get the exception.
                     it.primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE)
                 }
@@ -70,10 +70,10 @@ class MySliceProvider : SliceProvider() {
     }
 
     private fun createRowSliceWithStartItem(sliceUri: Uri): Slice {
-        return ListBuilder(context, sliceUri, ListBuilder.INFINITY)
+        return ListBuilder(context, sliceUri, INFINITY)
                 .addRow {
-                    it.setTitle("Welcome Android Slice")
-                    it.setSubtitle("It has Start Item")
+                    it.title = "Welcome Android Slice"
+                    it.subtitle = "It has Start Item"
                     // comment the following line to get the exception.
                     //it.primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE)
                     it.setTitleItem(createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE))
@@ -82,21 +82,21 @@ class MySliceProvider : SliceProvider() {
     }
 
     private fun createRowSliceWithStartItem1(sliceUri: Uri): Slice {
-        return list(context, sliceUri, ListBuilder.INFINITY) {
+        return list(context, sliceUri, INFINITY) {
             row {
                 setTitleItem(createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_pizza_slice_24, SliceHints.ICON_IMAGE))
-                setTitle("Welcome Android Slice")
-                setSubtitle("It has Start Item")
+                title = "Welcome Android Slice"
+                subtitle = "It has Start Item"
             }
         }
     }
 
     private fun createBasicHeaderSlice(sliceUri: Uri): Slice {
-        return ListBuilder(context, sliceUri, ListBuilder.INFINITY)
+        return ListBuilder(context, sliceUri, INFINITY)
                 .setHeader {
-                    it.setTitle("Welcome Android Slice")
-                    it.setSubtitle("Header of Slice")
-                    it.setSubtitle("Header of Slice")
+                    it.title = "Welcome Android Slice"
+                    it.subtitle = "Header of Slice"
+                    it.subtitle = "Header of Slice"
                 }
                 .build()
     }
@@ -129,9 +129,9 @@ class MySliceProvider : SliceProvider() {
         val wifiManager = context.getSystemService(Context.WIFI_SERVICE)
         val isWifiEnabled = wifiManager is WifiManager && wifiManager.isWifiEnabled
         if (isWifiEnabled) {
-            subTitle = "Enabled";
+            subTitle = "Enabled"
         } else {
-            subTitle = "Not Enabled";
+            subTitle = "Not Enabled"
         }
 
         return list(context, sliceUri, INFINITY) {
@@ -144,7 +144,7 @@ class MySliceProvider : SliceProvider() {
     }
 
     private fun createWiFiToggleAction(wifiEnabled: Boolean): SliceAction {
-        val intent = Intent(context, MyBroadcastReceiver::class.java).setAction(MyBroadcastReceiver.TOGGLE_WIFI).putExtra(MyBroadcastReceiver.EXTRA_VALUE_KEY, wifiEnabled);
+        val intent = Intent(context, MyBroadcastReceiver::class.java).setAction(MyBroadcastReceiver.TOGGLE_WIFI).putExtra(MyBroadcastReceiver.EXTRA_VALUE_KEY, wifiEnabled)
         return SliceAction(PendingIntent.getBroadcast(context, 0, intent, 0), "Toggle Wi-Fi", wifiEnabled)
     }
     //endregion
@@ -183,7 +183,7 @@ class MySliceProvider : SliceProvider() {
         // We’re waiting to load the time to work so indicate that on the slice by
         // setting the subtitle with the overloaded method and indicate true.
         Timer("SettingUp", false).schedule(2000) { loadSliceContents() }
-        return list(context, sliceUri, ListBuilder.INFINITY) {
+        return list(context, sliceUri, INFINITY) {
             row {
                 title = "Ride to work"
                 if (contentLoaded) {
@@ -198,7 +198,7 @@ class MySliceProvider : SliceProvider() {
 
     private fun loadSliceContents() {
         contentLoaded = true
-        context.contentResolver.notifyChange(delayContentSliceUri, null)
+        context?.contentResolver?.notifyChange(delayContentSliceUri, null)
     }
     //endregion
 
@@ -247,7 +247,7 @@ class MySliceProvider : SliceProvider() {
     }
 
     private fun createSliceWithHeaderAndRow(sliceUri: Uri): Slice? {
-        return list(context, sliceUri, ListBuilder.INFINITY) {
+        return list(context, sliceUri, INFINITY) {
             header {
                 title = "Get a ride."
                 subtitle = "Ride in 4 min."
@@ -277,7 +277,7 @@ class MySliceProvider : SliceProvider() {
     //region GridRowBuilder examples
     private fun createSliceWithGridRow(sliceUri: Uri): Slice {
 
-        return list(context, sliceUri, ListBuilder.INFINITY) {
+        return list(context, sliceUri, INFINITY) {
             header {
                 title = "Famous restaurants"
                 primaryAction = createActivityAction(Intent(context, MainActivity::class.java), R.drawable.ic_restaurant_24, SliceHints.ICON_IMAGE)
@@ -326,7 +326,7 @@ class MySliceProvider : SliceProvider() {
         mapIntent.setPackage("com.google.android.apps.maps")
 
 
-        return list(context, sliceUri, ListBuilder.INFINITY) {
+        return list(context, sliceUri, INFINITY) {
             header {
                 title = "Near by restaurants"
                 primaryAction = createPrimaryOpenMainActivityAction()
@@ -354,7 +354,7 @@ class MySliceProvider : SliceProvider() {
     //region Combine Row/Item tempaltes
     private fun createCombineSlices(sliceUri: Uri): Slice {
 
-        return list(context, sliceUri, ListBuilder.INFINITY) {
+        return list(context, sliceUri, INFINITY) {
             row {
                 title = "Upcoming Trip: Seattle"
                 subtitle = "Aug 15-20 • 5 Guests"
@@ -384,7 +384,7 @@ class MySliceProvider : SliceProvider() {
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
 
-        return list(context, sliceUri, ListBuilder.INFINITY) {
+        return list(context, sliceUri, INFINITY) {
             header {
                 title = "Heavy traffic in your area"
                 subtitle = "Typical conditions delays up to 28"
@@ -463,7 +463,7 @@ class MySliceProvider : SliceProvider() {
     }
 
     private fun createErrorSlice(sliceUri: Uri): Slice {
-        return ListBuilder(context, sliceUri, ListBuilder.INFINITY)
+        return ListBuilder(context, sliceUri, INFINITY)
                 .addRow {
                     it.title = "URI not found, Error."
                     it.primaryAction = createPrimaryOpenMainActivityAction()

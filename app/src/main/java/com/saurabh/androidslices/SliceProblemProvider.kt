@@ -17,9 +17,9 @@ class SliceProblemProvider : SliceProvider() {
     }
 
     override fun onBindSlice(sliceUri: Uri): Slice? {
-        return when {
-            sliceUri.path == "/basicRowSliceKTX" -> createRowSliceWithStartItemKTX(sliceUri)
-            sliceUri.path == "/inputRangePrimaryAction" -> createInputRangeSlice(sliceUri)
+        return when (sliceUri.path) {
+            "/basicRowSliceKTX" -> createRowSliceWithStartItemKTX(sliceUri)
+            "/inputRangePrimaryAction" -> createInputRangeSlice(sliceUri)
             else -> {
                 return null
             }
@@ -65,7 +65,7 @@ class SliceProblemProvider : SliceProvider() {
         val intent = Intent(context, MyBroadcastReceiver::class.java)
         return SliceAction.create(PendingIntent.getBroadcast(context, 0, intent, 0),
                 IconCompat.createWithResource(context, R.drawable.ic_brightness_auto_24),
-                SliceHints.ICON_IMAGE,
+                ListBuilder.ICON_IMAGE,
                 "Toggle adaptive brightness")
     }
 
